@@ -26,15 +26,17 @@ Map<String, dynamic> _$UserReputationHistoryResponseModelToJson(
       'quota_remaining': instance.quotaRemaining,
     };
 
-ReputationHistory _$ReputationHistoryFromJson(Map<String, dynamic> json) =>
-    ReputationHistory(
-      reputationHistoryType: $enumDecodeNullable(
-          _$ReputationHistoryTypeEnumMap, json['reputation_history_type']),
-      reputationChange: (json['reputation_change'] as num?)?.toInt(),
-      postId: (json['post_id'] as num?)?.toInt(),
-      creationDate: (json['creation_date'] as num?)?.toInt(),
-      userId: (json['user_id'] as num?)?.toInt(),
-    );
+ReputationHistory _$ReputationHistoryFromJson(Map<String, dynamic> json) {
+  
+  return ReputationHistory(
+    reputationHistoryType: $enumDecodeNullable(
+        _$ReputationHistoryTypeEnumMap, json['reputation_history_type']),
+    reputationChange: (json['reputation_change'] as num?)?.toInt(),
+    postId: (json['post_id'] as num?)?.toInt(),
+    creationDate: (json['creation_date'] as num?)?.toInt(),
+    userId: (json['user_id'] as num?)?.toInt(),
+  );
+}
 
 Map<String, dynamic> _$ReputationHistoryToJson(ReputationHistory instance) =>
     <String, dynamic>{

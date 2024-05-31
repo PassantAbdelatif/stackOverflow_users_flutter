@@ -10,6 +10,7 @@ import 'package:stackoverflow_users/src/styles/colors.dart';
 
 class UserItem extends StatefulWidget {
   final User user;
+  bool isBookmarked;
 
   final Function(int? userId) onUserItemClicked;
   final Function(int? userId) onbookmarkButtonClicked;
@@ -17,6 +18,7 @@ class UserItem extends StatefulWidget {
   UserItem(
       {Key? key,
       required this.user,
+      required this.isBookmarked,
       required this.onUserItemClicked,
       required this.onbookmarkButtonClicked})
       : super(key: key);
@@ -28,10 +30,17 @@ class UserItem extends StatefulWidget {
 class _UserItemState extends State<UserItem> {
   // Props
   late AppLocalizations appLocale;
+  bool isBookmarked = false;
+
+  Future<Null> checkIfUserIdBookmarked() async {
+    isBookmarked =
+        await SharedPrefs.checkIfUserIdBookmarked(widget.user.userId ?? 0);
+  }
 
   @override
   void initState() {
     super.initState();
+    checkIfUserIdBookmarked();
   }
 
   @override
@@ -97,12 +106,11 @@ class _UserItemState extends State<UserItem> {
                     color: Colors.black,
                   )),
               IconButton(
-                icon: !widget.user.isBookmarked
+                icon: !widget.isBookmarked
                     ? Assets.images.icUnbookmarked.image()
                     : Assets.images.icBookmarked.image(),
                 iconSize: 10,
                 onPressed: () {
-              
                   widget.onbookmarkButtonClicked(widget.user.userId);
                 },
               ),

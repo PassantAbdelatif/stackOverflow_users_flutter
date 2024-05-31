@@ -141,6 +141,8 @@ class _UsersListScreenState extends State<UsersListScreen> {
                               children: [
                                 UserItem(
                                   user: allUsers[index],
+                                  isBookmarked: bookamrkedIds.contains(
+                                      "${allUsers[index].userId ?? 0}"),
                                   onUserItemClicked: (userId) {
                                     Navigator.pushNamed(context,
                                         AppRoutes.userReputationsScreen,
@@ -148,26 +150,26 @@ class _UsersListScreenState extends State<UsersListScreen> {
                                           Constants.keys.user: allUsers[index],
                                         });
                                   },
-                                  onbookmarkButtonClicked: (userId) {
-                                    //check is user is bookmmarked or not
-                                    List<String> bookamrkedIds =
-                                        SharedPrefs.getBookmaredList()
-                                            as List<String>;
-                                    if (bookamrkedIds.contains("$userId")) {
-                                      //so this user is saved in bookmarkedIds
-                                      SharedPrefs.unBookmarkUserId(userId ?? 0);
-                                    } else {
-                                      //so this user is not saved in bookmarkedIds
-                                      SharedPrefs.bookmarkUserId(userId ?? 0);
-                                    }
+                                  onbookmarkButtonClicked: (userId) async {
+                                    // //check is user is bookmmarked or not
+                                    // List<String> bookamrkedIds =
+                                    //     await SharedPrefs.getBookmaredList();
+                                    // if (bookamrkedIds.contains("$userId")) {
+                                    //   //so this user is saved in bookmarkedIds
+                                    //   SharedPrefs.unBookmarkUserId(userId ?? 0);
+                                    // } else {
+                                    //   //so this user is not saved in bookmarkedIds
+                                    //   SharedPrefs.bookmarkUserId(userId ?? 0);
+                                    // }
 
                                     setState(() {
-                                      var user = allUsers[index];
-                                      allUsers.remove(user);
-
-                                      user.isBookmarked = !user.isBookmarked;
-                                      allUsers.insert(index, user);
+                                      if (bookamrkedIds.contains("$userId")) {
+                                        bookamrkedIds.remove('$userId');
+                                      } else {
+                                        bookamrkedIds.add('$userId');
+                                      }
                                     });
+                                    SharedPrefs.saveBookmaredList(bookamrkedIds);
                                   },
                                 ),
                                 const SizedBox(height: 10),

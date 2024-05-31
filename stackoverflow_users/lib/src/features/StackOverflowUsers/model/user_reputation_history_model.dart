@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logger/logger.dart';
+import 'package:stackoverflow_users/src/core/providers/shared_preferences_provider.dart';
 import 'package:stackoverflow_users/src/styles/colors.dart';
 part "user_reputation_history_model.g.dart";
 

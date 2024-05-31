@@ -69,4 +69,8 @@ class SharedPrefs extends ChangeNotifier {
 
     return savedUserIdsStringValues;
   }
+
+  static Future<void> saveBookmaredList(List<String> userIds) async {
+    await _prefsInstance.setStringList(Constants.keys.userIds, userIds);
+  }
 }
