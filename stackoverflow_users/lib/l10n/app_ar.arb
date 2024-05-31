@@ -1,0 +1,17 @@
+{
+  
+  "reputation": "Reputation",
+  "userId": "User ID: #",
+  "noUsers": "No Users",
+  
+  "userDetails": "User Details",
+  
+  "sofUsers": "StackOverflow Users",
+
+  "postDownvoted": "Post Downvoted",
+  "postUnupvoted": "Post Unupvoted",
+  "postUpvoted": "Post Upvoted",
+  "moderator": "Moderator",
+  "registered": "Registered"
+}
+
