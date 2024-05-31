@@ -1,17 +1,26 @@
 {
   
-  "reputation": "Reputation",
+  "reputation": "Reputation #",
+  "reputationChange": "Reputation Change:",
   "userId": "User ID: #",
+  "postId": "Post ID: #",
   "noUsers": "No Users",
   
   "userDetails": "User Details",
   
   "sofUsers": "StackOverflow Users",
 
-  "postDownvoted": "Post Downvoted",
-  "postUnupvoted": "Post Unupvoted",
-  "postUpvoted": "Post Upvoted",
+  "postDownvoted": "Post DownVoted",
+  "postUnupvoted": "Post UnUpvoted",
+  "postUpvoted": "Post UpVoted",
   "moderator": "Moderator",
-  "registered": "Registered"
+  "registered": "Registered",
+  "userDeleted": "User Deleted",
+  "answerAccepted": "Answer Accepted",
+  "answerUnAccepted": "Answer UnAccepted",
+  "voteFraudReversal": "Vote Fraud Reversal",
+  "postUndownvoted": "Post UnDownvoted",
+  "age": "Age"
+
 }
 

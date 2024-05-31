@@ -3,7 +3,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:stackoverflow_users/src/core/widgets/separator.dart';
 import 'package:stackoverflow_users/src/styles/colors.dart';
 
-
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({Key? key}) : super(key: key);
 
@@ -14,7 +13,6 @@ class LoadingWidget extends StatelessWidget {
       itemBuilder: (c, i) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: SizedBox(
-          height: 400,
           child: Card(
             elevation: 4,
             surfaceTintColor: Colors.grey,

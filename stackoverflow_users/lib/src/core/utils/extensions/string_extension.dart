@@ -6,7 +6,7 @@ import 'package:stackoverflow_users/src/core/constants/constants.dart';
 extension IntExtension on int {
   String readTimestamp() {
     var now = DateTime.now();
-    var format = DateFormat('HH:mm a');
+    var format = DateFormat('EEE, MMM d, HH:mm a');
     var date = DateTime.fromMillisecondsSinceEpoch(this * 1000);
     var diff = now.difference(date);
     var time = '';

@@ -18,7 +18,7 @@ class SOFUsersDataSource extends BaseDataSourceImpl {
   Future<UserReputationHistoryResponseModel> getUserReputaionHistory(
       int userId, int page) async {
     final userReputations = await getCallRequest(
-        '${Constants.apis.sofUsersRequest}/$userId/${Constants.apis.reputationHistoryRequest}?${Constants.keys.page}=$page&${Constants.keys.page}=${Constants.constants.pageSize}&${Constants.keys.site}=${Constants.keys.stackoverflow}');
+        '${Constants.apis.sofUsersRequest}/$userId/${Constants.apis.reputationHistoryRequest}?${Constants.keys.page}=$page&${Constants.keys.pagesize}=${Constants.constants.pageSize}&${Constants.keys.site}=${Constants.keys.stackoverflow}');
 
     return UserReputationHistoryResponseModel.fromJson(userReputations);
   }

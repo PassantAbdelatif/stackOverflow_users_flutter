@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stackoverflow_users/gen/assets.gen.dart';
+import 'package:stackoverflow_users/src/core/providers/shared_preferences_provider.dart';
 import 'package:stackoverflow_users/src/features/StackOverflowUsers/model/sof_users_model.dart';
 import 'package:stackoverflow_users/src/features/StackOverflowUsers/presentation/widgets/user_type_view.dart';
 import 'package:stackoverflow_users/src/styles/app_theme.dart';
@@ -10,8 +12,13 @@ class UserItem extends StatefulWidget {
   final User user;
 
   final Function(int? userId) onUserItemClicked;
+  final Function(int? userId) onbookmarkButtonClicked;
 
-  UserItem({Key? key, required this.user, required this.onUserItemClicked})
+  UserItem(
+      {Key? key,
+      required this.user,
+      required this.onUserItemClicked,
+      required this.onbookmarkButtonClicked})
       : super(key: key);
 
   @override
@@ -21,6 +28,11 @@ class UserItem extends StatefulWidget {
 class _UserItemState extends State<UserItem> {
   // Props
   late AppLocalizations appLocale;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +65,8 @@ class _UserItemState extends State<UserItem> {
                 const Divider(
                   thickness: 1,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 20),
+                _buildUserDetailsSection(),
                 const Divider(
                   thickness: 1,
                 ),
@@ -61,7 +74,7 @@ class _UserItemState extends State<UserItem> {
                 const Divider(
                   thickness: 1,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             )),
       ),
@@ -76,13 +89,23 @@ class _UserItemState extends State<UserItem> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("${appLocale.reputation} ${widget.user.reputation}",
+              Text("${appLocale.reputation} ${widget.user.reputation ?? 0}",
                   style: TextStyle(
                     fontFamily: AppTheme.appFont,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Colors.black,
                   )),
+              IconButton(
+                icon: !widget.user.isBookmarked
+                    ? Assets.images.icUnbookmarked.image()
+                    : Assets.images.icBookmarked.image(),
+                iconSize: 10,
+                onPressed: () {
+              
+                  widget.onbookmarkButtonClicked(widget.user.userId);
+                },
+              ),
             ],
           ),
           const SizedBox(height: 10),
@@ -102,6 +125,76 @@ class _UserItemState extends State<UserItem> {
     );
   }
 
+  Padding _buildUserDetailsSection() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 0.0, right: 7),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      (widget.user.profileImage != null
+                          ? Image.network(
+                              widget.user.profileImage ?? "",
+                              width: 50,
+                              height: 50,
+                            )
+                          : Assets.images.defaultProfileImageBigSize
+                              .image(width: 50, height: 50)),
+                      SizedBox(width: 10),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 150,
+                            child: Text(
+                                maxLines: 2,
+                                widget.user.displayName ?? "",
+                                style: TextStyle(
+                                  fontFamily: AppTheme.appFont,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: OkayColors.black,
+                                )),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(appLocale.age,
+                      style: TextStyle(
+                        fontFamily: AppTheme.appFont,
+                        fontSize: 19,
+                        fontWeight: FontWeight.w600,
+                        color: OkayColors.okayPurple,
+                      )),
+                ],
+              )
+            ],
+          ),
+          const SizedBox(height: 10),
+        ],
+      ),
+    );
+  }
+
   Widget _buildAddressDataWidget() {
     return Padding(
         padding: const EdgeInsets.only(left: 18.0, right: 18.0),
@@ -109,7 +202,7 @@ class _UserItemState extends State<UserItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Image.asset(
@@ -117,13 +210,13 @@ class _UserItemState extends State<UserItem> {
                     height: 23,
                     width: 24,
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       Assets.images.icMarker.image(),
                       const SizedBox(width: 15),
                       SizedBox(
-                        width: 300,
+                        width: 200,
                         child: Text(
                           maxLines: 2,
                           widget.user.location ?? "",

@@ -50,4 +50,9 @@ const _$ReputationHistoryTypeEnumMap = {
   ReputationHistoryType.POST_DOWNVOTED: 'post_downvoted',
   ReputationHistoryType.POST_UNUPVOTED: 'post_unupvoted',
   ReputationHistoryType.POST_UPVOTED: 'post_upvoted',
+  ReputationHistoryType.USER_DELETED: 'user_deleted',
+  ReputationHistoryType.ANSWER_UNACCEPTED: 'answer_unaccepted',
+  ReputationHistoryType.VOTE_FRAUD_REVERSAL: 'vote_fraud_reversal',
+  ReputationHistoryType.ANSWER_ACCEPTED: 'answer_accepted',
+  ReputationHistoryType.POST_UNDOWNVOTED: 'post_undownvoted',
 };

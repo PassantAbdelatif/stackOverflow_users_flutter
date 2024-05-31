@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stackoverflow_users/gen/assets.gen.dart';
 import 'package:stackoverflow_users/main.dart';
+import 'package:stackoverflow_users/router.dart';
 import 'package:stackoverflow_users/src/core/constants/constants.dart';
+import 'package:stackoverflow_users/src/core/providers/shared_preferences_provider.dart';
 import 'package:stackoverflow_users/src/features/StackOverflowUsers/bloc/users_bloc.dart';
 import 'package:stackoverflow_users/src/features/StackOverflowUsers/model/sof_users_model.dart';
 import 'package:stackoverflow_users/src/features/StackOverflowUsers/presentation/widgets/user_item_widget.dart';
@@ -29,13 +31,19 @@ class _UsersListScreenState extends State<UsersListScreen> {
   bool isNext = true;
   bool _isFirstLoadRunning = false;
   bool _isLoadMoreRunning = false;
+  List<String> bookamrkedIds = [];
 
   @override
   void initState() {
     super.initState();
+    getBookamrkedList();
     controller = ScrollController()..addListener(_scrollListener);
     _bloc = getIt<SOFUsersBloc>();
     _bloc.add(GetSOFUsersEvent(currentPage: currentPage));
+  }
+
+  Future<Null> getBookamrkedList() async {
+    bookamrkedIds = await SharedPrefs.getBookmaredList();
   }
 
   @override
@@ -47,7 +55,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
   @override
   Widget build(BuildContext context) {
     // Props
-
+    appLocale = AppLocalizations.of(context)!;
     return BlocBuilder(
       buildWhen: (ctx, state) => true,
       bloc: _bloc,
@@ -77,8 +85,8 @@ class _UsersListScreenState extends State<UsersListScreen> {
       children: [
         _buildHeaderContainer(context),
         _isFirstLoadRunning
-            ? const SizedBox(
-                height: 550,
+            ? SizedBox(
+                height: MediaQuery.of(context).size.height - 150,
                 child: LoadingWidget(),
               )
             : (currentPage == 1 && allUsers.isEmpty)
@@ -90,10 +98,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                         const SizedBox(
                           height: 100,
                         ),
-                        Image(
-                            height: 181,
-                            width: 181,
-                            image: AssetImage(Constants.images.icNoUsers)),
+                        Assets.images.icNoUsers.image(width: 180, height: 180),
                         const SizedBox(
                           height: 20,
                         ),
@@ -135,19 +140,36 @@ class _UsersListScreenState extends State<UsersListScreen> {
                             return Column(
                               children: [
                                 UserItem(
-                                    user: allUsers[index],
-                                    onUserItemClicked: (orderId) {
-                                      // Navigator.pushNamed(context,
-                                      //     // AppRoutes.historyDetailsScreen,
-                                      //     // arguments: {
-                                      //     //   Constants.keys.orderKey:
-                                      //     //       allUsers[index],
-                                      //     //   Constants.keys.deliveryTypeKey:
-                                      //     //       _selectedHistoryIndex == 0
-                                      //     //           ? DeliveryTypeEnum.food
-                                      //     //           : DeliveryTypeEnum.ride
-                                      //     // });
-                                    }),
+                                  user: allUsers[index],
+                                  onUserItemClicked: (userId) {
+                                    Navigator.pushNamed(context,
+                                        AppRoutes.userReputationsScreen,
+                                        arguments: {
+                                          Constants.keys.user: allUsers[index],
+                                        });
+                                  },
+                                  onbookmarkButtonClicked: (userId) {
+                                    //check is user is bookmmarked or not
+                                    List<String> bookamrkedIds =
+                                        SharedPrefs.getBookmaredList()
+                                            as List<String>;
+                                    if (bookamrkedIds.contains("$userId")) {
+                                      //so this user is saved in bookmarkedIds
+                                      SharedPrefs.unBookmarkUserId(userId ?? 0);
+                                    } else {
+                                      //so this user is not saved in bookmarkedIds
+                                      SharedPrefs.bookmarkUserId(userId ?? 0);
+                                    }
+
+                                    setState(() {
+                                      var user = allUsers[index];
+                                      allUsers.remove(user);
+
+                                      user.isBookmarked = !user.isBookmarked;
+                                      allUsers.insert(index, user);
+                                    });
+                                  },
+                                ),
                                 const SizedBox(height: 10),
                               ],
                             );
@@ -171,7 +193,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
   Container _buildHeaderContainer(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 200,
+      height: 139,
       decoration: BoxDecoration(
         color: OkayColors.white,
         boxShadow: [
@@ -192,13 +214,13 @@ class _UsersListScreenState extends State<UsersListScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: Assets.images.icClose.image(),
-                  iconSize: 30,
+                  icon: Assets.images.icBookmarkList.image(),
+                  iconSize: 20,
                   onPressed: () {
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
                   },
                 ),
-                Text(appLocale.noUsers,
+                Text(appLocale.sofUsers,
                     style: TextStyle(
                       fontFamily: AppTheme.appFont,
                       fontSize: 16,

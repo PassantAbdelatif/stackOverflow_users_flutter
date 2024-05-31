@@ -24,6 +24,14 @@ class $AssetsImagesGen {
   AssetGenImage get icArrowRight =>
       const AssetGenImage('assets/images/ic_arrow_right.png');
 
+  /// File path: assets/images/ic_bookmark_list.png
+  AssetGenImage get icBookmarkList =>
+      const AssetGenImage('assets/images/ic_bookmark_list.png');
+
+  /// File path: assets/images/ic_bookmarked.png
+  AssetGenImage get icBookmarked =>
+      const AssetGenImage('assets/images/ic_bookmarked.png');
+
   /// File path: assets/images/ic_close.png
   AssetGenImage get icClose =>
       const AssetGenImage('assets/images/ic_close.png');
@@ -44,16 +52,23 @@ class $AssetsImagesGen {
   AssetGenImage get icNoUsers =>
       const AssetGenImage('assets/images/ic_no_users.png');
 
+  /// File path: assets/images/ic_unbookmarked.png
+  AssetGenImage get icUnbookmarked =>
+      const AssetGenImage('assets/images/ic_unbookmarked.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
         defaultProfileImageBigSize,
         icArrowLeft,
         icArrowRight,
+        icBookmarkList,
+        icBookmarked,
         icClose,
         icDottedLine,
         icError,
         icMarker,
-        icNoUsers
+        icNoUsers,
+        icUnbookmarked
       ];
 }
 

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:logger/logger.dart';
 import 'package:stackoverflow_users/src/styles/colors.dart';
 part "user_reputation_history_model.g.dart";
 
@@ -63,7 +64,17 @@ enum ReputationHistoryType {
   @JsonValue("post_unupvoted")
   POST_UNUPVOTED,
   @JsonValue("post_upvoted")
-  POST_UPVOTED
+  POST_UPVOTED,
+  @JsonValue("user_deleted")
+  USER_DELETED,
+  @JsonValue("answer_unaccepted")
+  ANSWER_UNACCEPTED,
+  @JsonValue("vote_fraud_reversal")
+  VOTE_FRAUD_REVERSAL,
+  @JsonValue("answer_accepted")
+  ANSWER_ACCEPTED,
+  @JsonValue("post_undownvoted")
+  POST_UNDOWNVOTED
 }
 
 extension ReputationHistoryTypeHelper on ReputationHistoryType {
@@ -71,25 +82,41 @@ extension ReputationHistoryTypeHelper on ReputationHistoryType {
       ReputationHistoryType reputationType, AppLocalizations appLocale) {
     switch (reputationType) {
       case ReputationHistoryType.POST_DOWNVOTED:
-        return appLocale.moderator;
+        return appLocale.postDownvoted;
       case ReputationHistoryType.POST_UNUPVOTED:
-        return appLocale.registered;
+        return appLocale.postUnupvoted;
       case ReputationHistoryType.POST_UPVOTED:
-        return appLocale.registered;
-
+        return appLocale.postUpvoted;
+      case ReputationHistoryType.USER_DELETED:
+        return appLocale.userDeleted;
+      case ReputationHistoryType.ANSWER_UNACCEPTED:
+        return appLocale.answerUnAccepted;
+      case ReputationHistoryType.ANSWER_ACCEPTED:
+        return appLocale.answerAccepted;
+      case ReputationHistoryType.VOTE_FRAUD_REVERSAL:
+        return appLocale.voteFraudReversal;
+      case ReputationHistoryType.POST_UNDOWNVOTED:
+        return appLocale.postUndownvoted;
       default:
-        return appLocale.moderator;
+        return appLocale.postDownvoted;
     }
   }
 
   Color get reputationTypeColor {
     switch (this) {
       case ReputationHistoryType.POST_DOWNVOTED:
-        return OkayColors.deepLalic;
+        return OkayColors.blue;
       case ReputationHistoryType.POST_UNUPVOTED:
-        return OkayColors.dullYellow;
+        return OkayColors.lightTeal;
       case ReputationHistoryType.POST_UPVOTED:
-        return OkayColors.dullYellow;
+        return OkayColors.deepLalic;
+      case ReputationHistoryType.USER_DELETED:
+        return OkayColors.pinkishRed;
+      case ReputationHistoryType.ANSWER_UNACCEPTED:
+        return OkayColors.green;
+      case ReputationHistoryType.POST_UNDOWNVOTED:
+      case ReputationHistoryType.ANSWER_ACCEPTED:
+        return OkayColors.blush;
 
       default:
         return OkayColors.deepLalic;

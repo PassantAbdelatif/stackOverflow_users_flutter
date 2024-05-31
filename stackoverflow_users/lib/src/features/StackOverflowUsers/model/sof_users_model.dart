@@ -72,6 +72,7 @@ class User {
   String? profileImage;
   @JsonKey(name: "display_name")
   String? displayName;
+  bool isBookmarked = false;
 
   User({
     this.badgeCounts,
@@ -148,7 +149,7 @@ extension UserTypeHelper on UserType {
       case UserType.MODERATOR:
         return OkayColors.deepLalic;
       case UserType.REGISTERED:
-        return OkayColors.dullYellow;
+        return OkayColors.lightTeal;
 
       default:
         return OkayColors.deepLalic;

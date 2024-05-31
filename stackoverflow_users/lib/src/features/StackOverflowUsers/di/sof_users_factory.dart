@@ -4,7 +4,7 @@ import 'package:stackoverflow_users/src/features/StackOverflowUsers/bloc/users_b
 import 'package:stackoverflow_users/src/features/StackOverflowUsers/data/sof_users_dara_source.dart';
 import 'package:stackoverflow_users/src/features/StackOverflowUsers/repository/sof_users_repository.dart';
 import 'package:stackoverflow_users/src/features/StackOverflowUsers/usecases/get_sof_users.dart';
-import 'package:stackoverflow_users/src/features/StackOverflowUsers/usecases/get_user_reputation._details.dart';
+import 'package:stackoverflow_users/src/features/StackOverflowUsers/usecases/get_user_reputation_details.dart';
 
 import '../../../../main.dart';
 

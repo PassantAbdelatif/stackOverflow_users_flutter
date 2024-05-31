@@ -39,15 +39,18 @@ class _ReputationTypeWidgetState extends State<ReputationTypeWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-                ReputationHistoryTypeHelper.getReputationTypeTitle(
-                    widget.reputationType, appLocale),
-                style: TextStyle(
-                  fontFamily: AppTheme.appFont,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: OkayColors.white,
-                ))
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8),
+              child: Text(
+                  ReputationHistoryTypeHelper.getReputationTypeTitle(
+                      widget.reputationType, appLocale),
+                  style: TextStyle(
+                    fontFamily: AppTheme.appFont,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: OkayColors.white,
+                  )),
+            )
           ],
         ),
       ),

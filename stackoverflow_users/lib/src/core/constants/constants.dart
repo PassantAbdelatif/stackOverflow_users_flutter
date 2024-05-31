@@ -4,7 +4,6 @@ class Constants {
   static APISHeaderConstants get headers => APISHeaderConstants();
   static LanguageConstants get locale => LanguageConstants();
   static ConstantsValues get constants => ConstantsValues();
-  static ImagesConstants get images => ImagesConstants();
 }
 
 class KeysConstants {
@@ -14,6 +13,7 @@ class KeysConstants {
   String get stackoverflow => "stackoverflow";
   String get locale => "locale";
   String get user => "user";
+  String get userIds => "userIds";
 }
 
 class APIsConstants {
@@ -30,11 +30,6 @@ class APISHeaderConstants {
 
 class ConstantsValues {
   int get pageSize => 30;
-}
-
-class ImagesConstants {
-  String get icLoading => "assets/images/ic_loading.png";
-  String get icNoUsers => "assets/images/ic_no_orders.png";
 }
 
 class LanguageConstants {

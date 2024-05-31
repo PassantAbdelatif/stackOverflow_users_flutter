@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:stackoverflow_users/gen/assets.gen.dart';
 import 'package:stackoverflow_users/src/core/utils/extensions/string_extension.dart';
-import 'package:stackoverflow_users/src/features/StackOverflowUsers/model/sof_users_model.dart';
 import 'package:stackoverflow_users/src/features/StackOverflowUsers/model/user_reputation_history_model.dart';
 import 'package:stackoverflow_users/src/features/StackOverflowUsers/presentation/widgets/reputation_type_view.dart';
-import 'package:stackoverflow_users/src/features/StackOverflowUsers/presentation/widgets/user_type_view.dart';
 import 'package:stackoverflow_users/src/styles/app_theme.dart';
 import 'package:stackoverflow_users/src/styles/colors.dart';
 
@@ -49,6 +47,13 @@ class _UserItemState extends State<UserReputationItem> {
                 thickness: 1,
               ),
               SizedBox(height: 10),
+              Text("${appLocale.postId} ${widget.reputation.postId ?? 0}",
+                  style: TextStyle(
+                    fontFamily: AppTheme.appFont,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  )),
               const Divider(
                 thickness: 1,
               ),
@@ -70,7 +75,8 @@ class _UserItemState extends State<UserReputationItem> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("${appLocale.reputation} ${widget.reputation.reputationChange ?? 0}",
+              Text(
+                  "${appLocale.reputationChange} ${widget.reputation.reputationChange ?? 0}",
                   style: TextStyle(
                     fontFamily: AppTheme.appFont,
                     fontSize: 16,
@@ -84,7 +90,6 @@ class _UserItemState extends State<UserReputationItem> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                  width: 110,
                   height: 34,
                   child: ReputationTypeWidget(
                     reputationType: widget.reputation.reputationHistoryType ??
@@ -104,7 +109,7 @@ class _UserItemState extends State<UserReputationItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Image.asset(
@@ -115,8 +120,7 @@ class _UserItemState extends State<UserReputationItem> {
                   const SizedBox(height: 15),
                   Row(
                     children: [
-                      Assets.images.icMarker.image(),
-                      const SizedBox(width: 15),
+                      const SizedBox(width: 10),
                       SizedBox(
                         width: 300,
                         child: Text(
