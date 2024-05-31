@@ -14,6 +14,7 @@ class KeysConstants {
   String get locale => "locale";
   String get user => "user";
   String get userIds => "userIds";
+  String get bookmarkedUsers => "bookmarkedUsers";
 }
 
 class APIsConstants {

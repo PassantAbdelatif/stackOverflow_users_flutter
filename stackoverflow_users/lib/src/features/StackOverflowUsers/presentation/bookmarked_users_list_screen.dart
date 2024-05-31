@@ -15,21 +15,21 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class UsersListScreen extends StatefulWidget {
-  const UsersListScreen({super.key});
+class BookmarkedUsersListScreen extends StatefulWidget {
+  List<User> bookmarkedUsersList;
+  BookmarkedUsersListScreen({Key? key, required this.bookmarkedUsersList})
+      : super(key: key);
 
   @override
-  State<UsersListScreen> createState() => _UsersListScreenState();
+  State<BookmarkedUsersListScreen> createState() =>
+      _BookmarkedUsersListScreenState();
 }
 
-class _UsersListScreenState extends State<UsersListScreen> {
+class _BookmarkedUsersListScreenState extends State<BookmarkedUsersListScreen> {
   late AppLocalizations appLocale;
   late ScrollController controller;
   late SOFUsersBloc _bloc;
-  int currentPage = 1;
-  late List<User> allUsers = [];
-  late List<User> bookmarkedUsers = [];
-  bool isNext = true;
+
   bool _isFirstLoadRunning = false;
   bool _isLoadMoreRunning = false;
   List<String> bookamrkedIds = [];
@@ -40,11 +40,13 @@ class _UsersListScreenState extends State<UsersListScreen> {
     getBookamrkedList();
     controller = ScrollController()..addListener(_scrollListener);
     _bloc = getIt<SOFUsersBloc>();
-    _bloc.add(GetSOFUsersEvent(currentPage: currentPage));
   }
 
-  Future<Null> getBookamrkedList() async {
-    bookamrkedIds = await SharedPrefs.getBookmaredList();
+  getBookamrkedList() {
+    bookamrkedIds = widget.bookmarkedUsersList
+        .map((user) => '${user.userId ?? 0}')
+        .toList();
+    ;
   }
 
   @override
@@ -61,23 +63,6 @@ class _UsersListScreenState extends State<UsersListScreen> {
       buildWhen: (ctx, state) => true,
       bloc: _bloc,
       builder: (ctx, state) {
-        if (state is UsersStateSuccess) {
-          isNext = state.isNext;
-          if (currentPage == 1) {
-            allUsers = state.users;
-            _isFirstLoadRunning = false;
-          } else {
-            allUsers.addAll(state.users);
-            _isLoadMoreRunning = false;
-          }
-          bookmarkedUsers = allUsers
-              .where((user) => bookamrkedIds.contains("${user.userId ?? 0}"))
-              .toList();
-        } else if (state is UsersInitialLoading) {
-          _isFirstLoadRunning = true;
-        } else if (state is UsersLoadMoreLoading) {
-          _isLoadMoreRunning = true;
-        }
         return Scaffold(
             backgroundColor: OkayColors.white, body: _buildItemsList());
       },
@@ -91,9 +76,9 @@ class _UsersListScreenState extends State<UsersListScreen> {
         _isFirstLoadRunning
             ? SizedBox(
                 height: MediaQuery.of(context).size.height - 150,
-                child: LoadingWidget(),
+                child: const LoadingWidget(),
               )
-            : (currentPage == 1 && allUsers.isEmpty)
+            : (widget.bookmarkedUsersList.isEmpty)
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -110,7 +95,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                           width: 200,
                           child: Text(
                             maxLines: 2,
-                            appLocale.noUsers,
+                            appLocale.noBookmarkedUsers,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: OkayColors.greyishBlack,
@@ -139,29 +124,32 @@ class _UsersListScreenState extends State<UsersListScreen> {
                           shrinkWrap: true,
                           padding: EdgeInsets.zero,
                           physics: const ScrollPhysics(),
-                          itemCount: allUsers.length,
+                          itemCount: widget.bookmarkedUsersList.length,
                           itemBuilder: (ctx, index) {
                             return Column(
                               children: [
                                 UserItem(
-                                  user: allUsers[index],
+                                  user: widget.bookmarkedUsersList[index],
                                   isBookmarked: bookamrkedIds.contains(
-                                      "${allUsers[index].userId ?? 0}"),
+                                      "${widget.bookmarkedUsersList[index].userId ?? 0}"),
                                   onUserItemClicked: (userId) {
                                     Navigator.pushNamed(context,
                                         AppRoutes.userReputationsScreen,
                                         arguments: {
-                                          Constants.keys.user: allUsers[index],
+                                          Constants.keys.user:
+                                              widget.bookmarkedUsersList[index],
                                         });
                                   },
                                   onbookmarkButtonClicked: (userId) async {
                                     setState(() {
                                       if (bookamrkedIds.contains("$userId")) {
                                         bookamrkedIds.remove('$userId');
-                                        bookmarkedUsers.remove(allUsers[index]);
+                                        widget.bookmarkedUsersList.remove(
+                                            widget.bookmarkedUsersList[index]);
                                       } else {
                                         bookamrkedIds.add('$userId');
-                                        bookmarkedUsers.add(allUsers[index]);
+                                        widget.bookmarkedUsersList.add(
+                                            widget.bookmarkedUsersList[index]);
                                       }
                                     });
                                     SharedPrefs.saveBookmaredList(
@@ -176,13 +164,6 @@ class _UsersListScreenState extends State<UsersListScreen> {
                       ),
                     ),
                   ),
-        if (_isLoadMoreRunning)
-          const Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 40),
-              child: SpinKitCircle(
-                color: OkayColors.okayPurple,
-                size: 50.0,
-              )),
       ],
     );
   }
@@ -212,17 +193,13 @@ class _UsersListScreenState extends State<UsersListScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: Assets.images.icBookmarkList.image(),
+                  icon: Assets.images.icClose.image(),
                   iconSize: 20,
                   onPressed: () {
-                    Navigator.pushNamed(
-                        context, AppRoutes.bookmarkedUsersScreen,
-                        arguments: {
-                          Constants.keys.bookmarkedUsers: bookmarkedUsers,
-                        });
+                    Navigator.pop(context);
                   },
                 ),
-                Text(appLocale.sofUsers,
+                Text(appLocale.bookmarkedUsers,
                     style: TextStyle(
                       fontFamily: AppTheme.appFont,
                       fontSize: 16,
@@ -242,20 +219,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
     );
   }
 
-  void _scrollListener() {
-    if (controller.position.extentAfter < 300 &&
-        isNext &&
-        !_isLoadMoreRunning) {
-      currentPage++;
-      _bloc.add(
-        GetSOFUsersEvent(currentPage: currentPage),
-      );
-    }
-  }
+  void _scrollListener() {}
 
-  void _pullToRefresh() {
-    currentPage = 1;
-    getBookamrkedList();
-    _bloc.add(GetSOFUsersEvent(currentPage: currentPage));
-  }
+  void _pullToRefresh() {}
 }

@@ -5,11 +5,11 @@
   "userId": "User ID: #",
   "postId": "Post ID: #",
   "noUsers": "No Users",
-  
+  "noBookmarkedUsers": "No Bookmarked Users",
   "userDetails": "User Details",
   
   "sofUsers": "StackOverflow Users",
-
+  "bookmarkedUsers": "Bookmarked Users",
   "postDownvoted": "Post DownVoted",
   "postUnupvoted": "Post UnUpvoted",
   "postUpvoted": "Post UpVoted",
@@ -21,6 +21,5 @@
   "voteFraudReversal": "Vote Fraud Reversal",
   "postUndownvoted": "Post UnDownvoted",
   "age": "Age"
-
 }
 

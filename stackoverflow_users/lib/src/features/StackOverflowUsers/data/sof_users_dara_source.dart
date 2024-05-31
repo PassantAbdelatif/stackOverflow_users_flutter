@@ -10,7 +10,7 @@ class SOFUsersDataSource extends BaseDataSourceImpl {
 
   Future<SofUsersResponseModel> getSOFUsers(int page) async {
     final allUsers = await getCallRequest(
-        '${Constants.apis.sofUsersRequest}?${Constants.keys.page}=$page&${Constants.keys.page}=${Constants.constants.pageSize}&${Constants.keys.site}=${Constants.keys.stackoverflow}');
+        '${Constants.apis.sofUsersRequest}?${Constants.keys.page}=$page&${Constants.keys.pagesize}=${Constants.constants.pageSize}&${Constants.keys.site}=${Constants.keys.stackoverflow}');
 
     return SofUsersResponseModel.fromJson(allUsers);
   }
