@@ -151,17 +151,7 @@ class _UsersListScreenState extends State<UsersListScreen> {
                                         });
                                   },
                                   onbookmarkButtonClicked: (userId) async {
-                                    // //check is user is bookmmarked or not
-                                    // List<String> bookamrkedIds =
-                                    //     await SharedPrefs.getBookmaredList();
-                                    // if (bookamrkedIds.contains("$userId")) {
-                                    //   //so this user is saved in bookmarkedIds
-                                    //   SharedPrefs.unBookmarkUserId(userId ?? 0);
-                                    // } else {
-                                    //   //so this user is not saved in bookmarkedIds
-                                    //   SharedPrefs.bookmarkUserId(userId ?? 0);
-                                    // }
-
+                                 
                                     setState(() {
                                       if (bookamrkedIds.contains("$userId")) {
                                         bookamrkedIds.remove('$userId');

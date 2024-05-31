@@ -32,35 +32,7 @@ class SharedPrefs extends ChangeNotifier {
     await _prefsInstance.setString(Constants.keys.locale, locale.languageCode);
   }
 
-  static Future<void> bookmarkUserId(int userId) async {
-    // fetch your saved user ids string list
-    List<String> savedUserIdsStringValues =
-        (_prefsInstance.getStringList(Constants.keys.userIds) ?? []);
-    // add your unbookmarked userId to saved user ids string list
-    savedUserIdsStringValues.add("$userId");
-    //then save the updated list
-    await _prefsInstance.setStringList(
-        Constants.keys.userIds, savedUserIdsStringValues);
-  }
 
-  static Future<void> unBookmarkUserId(int userId) async {
-    // fetch your saved user ids string list
-    List<String> savedUserIdsStringValues =
-        (_prefsInstance.getStringList(Constants.keys.userIds) ?? []);
-    // remove your bookmarked userId to saved user ids string list
-    savedUserIdsStringValues.removeWhere((item) => item == '$userId');
-    //then save the updated list
-    await _prefsInstance.setStringList(
-        Constants.keys.userIds, savedUserIdsStringValues);
-  }
-
-  static Future<bool> checkIfUserIdBookmarked(int userId) async {
-    // fetch your saved user ids string list
-    List<String> savedUserIdsStringValues =
-        (_prefsInstance.getStringList(Constants.keys.userIds) ?? []);
-
-    return savedUserIdsStringValues.contains("$userId");
-  }
 
   static Future<List<String>> getBookmaredList() async {
     // fetch your saved user ids string list

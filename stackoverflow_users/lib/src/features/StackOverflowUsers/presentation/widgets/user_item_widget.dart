@@ -30,17 +30,10 @@ class UserItem extends StatefulWidget {
 class _UserItemState extends State<UserItem> {
   // Props
   late AppLocalizations appLocale;
-  bool isBookmarked = false;
-
-  Future<Null> checkIfUserIdBookmarked() async {
-    isBookmarked =
-        await SharedPrefs.checkIfUserIdBookmarked(widget.user.userId ?? 0);
-  }
 
   @override
   void initState() {
     super.initState();
-    checkIfUserIdBookmarked();
   }
 
   @override
