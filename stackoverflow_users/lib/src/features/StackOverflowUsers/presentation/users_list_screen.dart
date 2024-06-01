@@ -66,13 +66,12 @@ class _UsersListScreenState extends State<UsersListScreen> {
           if (currentPage == 1) {
             allUsers = state.users;
             _isFirstLoadRunning = false;
+          
           } else {
             allUsers.addAll(state.users);
             _isLoadMoreRunning = false;
+          
           }
-          bookmarkedUsers = allUsers
-              .where((user) => bookamrkedIds.contains("${user.userId ?? 0}"))
-              .toList();
         } else if (state is UsersInitialLoading) {
           _isFirstLoadRunning = true;
         } else if (state is UsersLoadMoreLoading) {

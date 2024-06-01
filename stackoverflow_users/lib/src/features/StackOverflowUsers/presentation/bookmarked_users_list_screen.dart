@@ -46,7 +46,7 @@ class _BookmarkedUsersListScreenState extends State<BookmarkedUsersListScreen> {
     bookamrkedIds = widget.bookmarkedUsersList
         .map((user) => '${user.userId ?? 0}')
         .toList();
-    ;
+
   }
 
   @override
